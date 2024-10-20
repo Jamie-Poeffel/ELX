@@ -1,4 +1,4 @@
-<span style="color: orange;"># **This tool is currontly only awaliable on Windows**</span>
+# **This tool is currontly only awaliable on Windows**
 
 
 # ELW
