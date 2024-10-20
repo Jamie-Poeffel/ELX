@@ -1,6 +1,6 @@
-# ELX
+# ELW
 
-ELX is a tool to install
+ELW – Engineer’s Life Workflow
 
 [install](#install)
 
