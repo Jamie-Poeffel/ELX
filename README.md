@@ -2,7 +2,7 @@
 
 ELW – Engineer’s Life Workflow
 
-## This tool is currontly only awaliable on Windows
+<strong>This tool is currontly only awaliable on Windows</strong>
 
 [install](#installation)
 [Usage](#Usage)
