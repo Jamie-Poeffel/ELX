@@ -42,4 +42,3 @@ if errorlevel 1 (
     echo Alle Dateien wurden erfolgreich verschoben!
 )
 
-pause
