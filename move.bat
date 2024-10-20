@@ -8,7 +8,7 @@ if not %errorlevel%==0 (
 )
 
 :: Setzt das Quellverzeichnis, wo die Dateien im Ordner 'program' liegen
-set "source=C:\Users\jamie\OneDrive - sluz\Desktop\ELWProgramm\program"
+set "source=%~dp0\program"
 
 :: Setzt das Zielverzeichnis, wo die Dateien hinverschoben werden sollen
 set "destination=C:\Windows\System32\ELW"
