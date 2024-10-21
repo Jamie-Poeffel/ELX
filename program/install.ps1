@@ -32,7 +32,7 @@ if ($chosen -eq $frameworks[0]){
 
     if ($gito -eq $gitos[0])
     {   
-        $encryptedMessage = [System.Environment]::GetEnvironmentVariable("")
+        $encryptedMessage = [System.Environment]::GetEnvironmentVariable("GITREPOACCESS")
 
         $password = [System.Environment]::GetEnvironmentVariable("ELXPASSKEY")
         $myPath = [System.Environment]::GetEnvironmentVariable("ELXPASSPATH")
