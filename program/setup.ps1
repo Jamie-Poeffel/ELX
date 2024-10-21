@@ -20,16 +20,33 @@ $body = @{
 
 $response = Invoke-RestMethod -Uri $deviceFlowUrl -Method Post -Body $body -ContentType "application/json"
 
-$userCode = $response.user_code
-$deviceCode = $response.device_code
-$verificationUri = $response.$verification_uri
+$splittedResp = $response.Split('&')
+$device_code = $splittedResp[0].Split('=')
+$device_code = $device_code[1]
 
-Write-Host "Bitte gehe zu $verificationUri und gebe den Code $userCode ein."
+$user_code = $splittedResp[3].Split('=')
+$user_code = $user_code[1]
+
+$verificationUri = $splittedResp[4].Split('=')
+$verificationUri = $verificationUri[1]
+
+
+Write-Host "Bitte gehe zu $verificationUri und gebe den Code $user_code ein."
 
 Start-Sleep -Seconds 1
 
-Start-Process "msedge.exe" $verificationUri
+$chromePath = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+$edgePath = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+if (Test-Path $chromePath){
+    Start-Process $chromePath -ArgumentList $verificationUri
+}elseif (Test-Path $edgePath){
+    Start-Process $edgePath -ArgumentList $verificationUri
+}
+else{
+    Write-Host "Google Chrome und Microsoft edge konnte nicht gefunden werden. Stelle sicher, dass es installiert ist."
+}
 
+Pause
 
 $tokenUrl = "https://github.com/login/oauth/access_token"
 
@@ -41,7 +58,7 @@ while ($true)
 
     $tokenBody = @{
         client_id       = $clientId
-        device_code     = $deviceCode
+        device_code     = $device_code
         grant_type      = "urn:ietf:params:outh:grant-type:device_code"
     } | ConvertTo-Json
 
@@ -86,4 +103,3 @@ $GitACCESS = $response.clone_url
 
 $cert = New-SelfSignedCertificate -Type Custom -KeyAlgorithm RSA -KeyLength 2048 -HashAlgorithm SHA256 -KeyExportPolicy Exportable -Subject "CN=GenerateedCert" -CertStoreLocation "Cert:\CurrentUser\My"
 Export-PfxCertificate -Cert "Cert:\CurrentUser\My\$($cert.Thumbprint)" -FilePath $myPath -Password (ConvertTo-SecureString -String $password -Force -AsPlainText) 
-
