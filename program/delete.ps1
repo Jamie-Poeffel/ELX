@@ -40,6 +40,6 @@ if ((Test-Path -Path $elw))
 
 
 
-Start-Sleep -Seconds 5 
+Start-Sleep -Seconds 2
 
 exit
