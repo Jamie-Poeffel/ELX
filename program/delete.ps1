@@ -17,6 +17,8 @@ $elx = $systemPath + "elx.bat"
 
 $elw = $systemPath + "ELW"
 
+$key = Join-path $HOME + ".ssh\elxprivkey.pfx"
+
 if ((Test-Path -Path $elx))
 {
     Remove-Item -Path $elx -Force
@@ -37,9 +39,17 @@ if ((Test-Path -Path $elw))
     Write-Error "
     path $elw does not exist please install and setup first and then delete"
 }
+if ((Test-Path -Path $key))
+{
+    Remove-Item -Path $key -Force
+
+    Write-Host "key removed"
+}else {
+    Write-Error "
+    path $key does not exist please install and setup first and then delete"
+}
 
 
-
-Start-Sleep -Seconds 2
+Start-Sleep -Seconds 1
 
 exit
