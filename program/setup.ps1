@@ -9,3 +9,12 @@ if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     Exit;
 }
 
+$password = [guid]::NewGuid().ToString()
+$myPath = Join-path $HOME + ".ssh\elxprivkey.pfx"
+
+[System.Environment]::SetEnvironmentVariable("ELXPASSKEY", $password, [System.EnvironmentVariableTarget]::User)
+[System.Environment]::SetEnvironmentVariable("ELXPASSPATH", $myPath, [System.EnvironmentVariableTarget]::User)
+
+$cert = New-SelfSignedCertificate -Type Custom -KeyAlgorithm RSA -KeyLength 2048 -HashAlgorithm SHA256 -KeyExportPolicy Exportable -Subject "CN=GenerateedCert" -CertStoreLocation "Cert:\CurrentUser\My"
+Export-PfxCertificate -Cert "Cert:\CurrentUser\My\$($cert.Thumbprint)" -FilePath $myPath -Password (ConvertTo-SecureString -String $password -Force -AsPlainText) 
+
