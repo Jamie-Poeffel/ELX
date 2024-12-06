@@ -1,8 +1,8 @@
-# elx Installer
+# elx
 
 ## Struktur des Installers
 
-Der **elx**-Installer ist ein Modul, das mehrere Skripte und Batch-Dateien enthält, um die Installation und Verwaltung von Modulen und Anwendungen zu erleichtern. Im Folgenden findest du die Verzeichnisstruktur des Installers:
+Der **elx** ist ein Modul, das mehrere Skripte und Batch-Dateien enthält, um die Installation und Verwaltung von Modulen und Anwendungen zu erleichtern. Im Folgenden findest du die Verzeichnisstruktur des Installers:
 
 ```sh
 C://Windows/System32   # Lokales System
@@ -34,7 +34,7 @@ Der elx-Installer bietet mehrere Befehle, die in der Konsole ausgeführt werden 
 ### **setup**
 
 **Beschreibung**:  
-Der `setup`-Befehl muss nach der Installation des Tools ausgeführt werden, um wichtige Abhängigkeiten und Konfigurationen hinzuzufügen. Dies stellt sicher, dass alle erforderlichen Module und Konfigurationen korrekt eingerichtet werden, bevor mit der tatsächlichen Installation von Modulen fortgefahren werden kann.
+Der `elx setup`-Befehl muss nach der Installation des Tools ausgeführt werden, um wichtige Abhängigkeiten und Konfigurationen hinzuzufügen. Dies stellt sicher, dass alle erforderlichen Module und Konfigurationen korrekt eingerichtet werden, bevor mit der tatsächlichen Installation von Modulen fortgefahren werden kann.
 
 **Verwendung**:  
 Führe diesen Befehl aus, um die notwendigen Abhängigkeiten und Konfigurationen für den Installer vorzubereiten.
@@ -48,7 +48,7 @@ ps> elx setup  # Richte den Modul-Installer ein
 ### **install**
 
 **Beschreibung**:  
-Der `install`-Befehl wird verwendet, um die Module und Anwendungen auf deinem lokalen PC zu installieren. Dieser Befehl wird nach der erfolgreichen Einrichtung des Installers und der Konfiguration von Abhängigkeiten ausgeführt.
+Der `elx install`-Befehl wird verwendet, um die Module und Anwendungen auf deinem lokalen PC zu installieren. Dieser Befehl wird nach der erfolgreichen Einrichtung des Installers und der Konfiguration von Abhängigkeiten ausgeführt.
 
 **Verwendung**:  
 Nutze diesen Befehl, um die gewünschten Module oder Anwendungen auf deinem System zu installieren. Dieser Schritt kann je nach den installierten Modulen einige Zeit in Anspruch nehmen.
@@ -62,7 +62,7 @@ ps> elx install  # Installiere die Module auf deinem System
 ### **--help**
 
 **Beschreibung**:  
-Der `--help`-Befehl bietet eine schnelle Möglichkeit, Unterstützung direkt in der Konsole zu erhalten. Wenn du dir nicht sicher bist, wie ein bestimmter Befehl verwendet wird oder eine Hilfeanfrage hast, kannst du diesen Befehl ausführen, um Informationen und Anleitungen zu erhalten.
+Der `elx --help`-Befehl bietet eine schnelle Möglichkeit, Unterstützung direkt in der Konsole zu erhalten. Wenn du dir nicht sicher bist, wie ein bestimmter Befehl verwendet wird oder eine Hilfeanfrage hast, kannst du diesen Befehl ausführen, um Informationen und Anleitungen zu erhalten.
 
 **Verwendung**:  
 Führe diesen Befehl aus, um eine vollständige Liste der verfügbaren Befehle sowie deren Beschreibung anzuzeigen. Dies ist besonders nützlich, wenn du Informationen zu den verfügbaren Optionen benötigst oder weitere Hilfe benötigst.

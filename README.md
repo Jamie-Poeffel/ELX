@@ -13,7 +13,18 @@ ELW – Engineer’s Life Workflow
 
 if this appears in you installation process please click on More options (Weitere optionen) and then on install start (trodzthem ausführen)
 
-[install](#installation) <br> [Usage](#Usage)
+[install](#installation) <br> [Usage](#Usage) 
+<br> <br>
+
+### Documentation
+
+[Documentation/de](./docs/de/elx.md)
+<br>
+[Documentation/en](./docs/en/elx.md)
+
+### Licence
+
+[License](./LICENSE)
 
 ## installation
 
