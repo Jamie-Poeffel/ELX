@@ -18,9 +18,9 @@ if this appears in you installation process please click on More options (Weiter
 
 ### Documentation
 
-[Documentation/de](./docs/de/elx.md)
+[Documentation/de](./docs/de/)
 <br>
-[Documentation/en](./docs/en/elx.md)
+[Documentation/en](./docs/en/)
 
 ### Licence
 
