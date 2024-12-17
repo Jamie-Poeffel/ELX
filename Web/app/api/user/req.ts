@@ -63,37 +63,37 @@ function CheckEmailValid(email: string): boolean {
    return false;
 }
 
-async function IsEmailAvaliable(email: string) {
-   // Create the serverURL for users and check if the email is already used
-   const Fetch_URL = URLGenerator("Users", {
-      filterby: "email",
-      filter: `${email}`,
-   });
+// async function IsEmailAvaliable(email: string) {
+//    // Create the serverURL for users and check if the email is already used
+//    const Fetch_URL = URLGenerator("Users", {
+//       filterby: "email",
+//       filter: `${email}`,
+//    });
 
-   try {
-      const res = await fetch(Fetch_URL, {
-         method: "GET",
-         headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_APP_API_TOKEN}`,
-         },
-      });
+//    try {
+//       const res = await fetch(Fetch_URL, {
+//          method: "GET",
+//          headers: {
+//             "Content-Type": "application/json",
+//             Authorization: `Bearer ${process.env.NEXT_PUBLIC_APP_API_TOKEN}`,
+//          },
+//       });
 
-      if (!res.ok) {
-         console.error("Result" + res);
-         throw new Error("Network error");
-      }
+//       if (!res.ok) {
+//          console.error("Result" + res);
+//          throw new Error("Network error");
+//       }
 
-      const data = await res.json();
+//       const data = await res.json();
 
-      if (data.length > 0) {
-         return false;
-      }
-      return true;
-   } catch (e) {
-      console.error(e);
-   }
-}
+//       if (data.length > 0) {
+//          return false;
+//       }
+//       return true;
+//    } catch (e) {
+//       console.error(e);
+//    }
+// }
 
 function setCookie(name: string, value: string, days: number): void {
    const date = new Date();
