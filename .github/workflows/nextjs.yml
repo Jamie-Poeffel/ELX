@@ -32,7 +32,7 @@ jobs:
       - name: change Directory
         id: change-directory
         run: |
-          cd ./Web
+          cd Web
       - name: Checkout
         uses: actions/checkout@v4
       - name: Detect package manager
