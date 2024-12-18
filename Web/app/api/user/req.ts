@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { URLGenerator } from "../handler";
 
 export async function LoginUser(email: string, password: string) {
@@ -47,7 +48,8 @@ export async function LoginUser(email: string, password: string) {
       }
 
       setCookie("ELW_SESSION_TOKEN", `${user.fields.session_key}`, 7);
-      return `Login successful! Welcome ${user.fields.name}`;
+
+      return;
    } catch (error) {
       console.error("Login error:", error);
       throw new Error(`Login failed: ${error}`);
