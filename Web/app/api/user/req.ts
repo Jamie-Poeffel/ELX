@@ -1,3 +1,4 @@
+"use client";
 import { useRouter } from "next/router";
 import { URLGenerator } from "../handler";
 
@@ -56,6 +57,113 @@ export async function LoginUser(email: string, password: string) {
    }
 }
 
+export async function Auth() {
+   // Check if the user is authenticated
+   const router = useRouter();
+   const session_key = getCookie("ELW_SESSION_TOKEN");
+
+   if (!session_key) {
+      return null;
+   }
+
+   try {
+      const SERVER_URL = URLGenerator("Users", {
+         filterby: "session_key",
+         filter: `${session_key}`,
+      });
+
+      const res = await fetch(SERVER_URL, {
+         method: "GET",
+         headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_APP_API_TOKEN}`,
+         },
+      });
+
+      const results = await res.json();
+
+      const users = results.records;
+      const user = users[0];
+
+      console.log(user.fields.firstname);
+      return user.fields.firstname;
+   } catch (error) {
+      console.error("Auth error:", error);
+      return "error";
+   }
+}
+
+export async function RegisterUser(
+   firstname: string,
+   lastname: string,
+   email: string,
+   password: string,
+   secpassword: string
+) {
+   let errmsg = "";
+
+   if (
+      firstname === "" ||
+      lastname === "" ||
+      email === "" ||
+      password === "" ||
+      secpassword === ""
+   ) {
+      errmsg += "All fields are required\n";
+      return errmsg;
+   }
+
+   if (!CheckEmailValid(email.toLowerCase())) {
+      errmsg += "Email is not Valid\n";
+      return errmsg;
+   }
+
+   if (!IsEmailAvaliable(email.toLowerCase())) {
+      errmsg += "Email is already in use\n";
+      return errmsg;
+   }
+
+   if (password !== secpassword) {
+      errmsg += "Passwords do not match\n";
+      return errmsg;
+   }
+
+   const session_key = crypto.randomUUID();
+   email = email.toLowerCase();
+
+   try {
+      const res = await fetch(URLGenerator("Users"), {
+         method: "POST",
+         headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_APP_API_TOKEN}`,
+         },
+         body: JSON.stringify({
+            records: [
+               {
+                  fields: {
+                     email,
+                     password,
+                     firstname,
+                     lastname,
+                     session_key,
+                  },
+               },
+            ],
+         }),
+      });
+
+      if (!res.ok) {
+         throw new Error(`Server error: ${res.status} ${res.statusText}`);
+      } else {
+         return;
+      }
+   } catch (error) {
+      console.error("Register error:", error);
+      throw new Error(`Register failed: ${error}`);
+   }
+}
+
 function CheckEmailValid(email: string): boolean {
    // Server Check if email is vaild
    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -65,37 +173,37 @@ function CheckEmailValid(email: string): boolean {
    return false;
 }
 
-// async function IsEmailAvaliable(email: string) {
-//    // Create the serverURL for users and check if the email is already used
-//    const Fetch_URL = URLGenerator("Users", {
-//       filterby: "email",
-//       filter: `${email}`,
-//    });
+async function IsEmailAvaliable(email: string) {
+   // Create the serverURL for users and check if the email is already used
+   const Fetch_URL = URLGenerator("Users", {
+      filterby: "email",
+      filter: `${email}`,
+   });
 
-//    try {
-//       const res = await fetch(Fetch_URL, {
-//          method: "GET",
-//          headers: {
-//             "Content-Type": "application/json",
-//             Authorization: `Bearer ${process.env.NEXT_PUBLIC_APP_API_TOKEN}`,
-//          },
-//       });
+   try {
+      const res = await fetch(Fetch_URL, {
+         method: "GET",
+         headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_APP_API_TOKEN}`,
+         },
+      });
 
-//       if (!res.ok) {
-//          console.error("Result" + res);
-//          throw new Error("Network error");
-//       }
+      if (!res.ok) {
+         console.error("Result" + res);
+         throw new Error("Network error");
+      }
 
-//       const data = await res.json();
+      const data = await res.json();
 
-//       if (data.length > 0) {
-//          return false;
-//       }
-//       return true;
-//    } catch (e) {
-//       console.error(e);
-//    }
-// }
+      if (data.length > 0) {
+         return false;
+      }
+      return true;
+   } catch (e) {
+      console.error(e);
+   }
+}
 
 function setCookie(name: string, value: string, days: number): void {
    const date = new Date();
@@ -105,4 +213,19 @@ function setCookie(name: string, value: string, days: number): void {
 
    // Set the cookie on Path / for accesability
    document.cookie = `${name}=${encodeURIComponent(value)}; ${expires}; path=/`;
+}
+
+function getCookie(name: string): string | null {
+   if (typeof document === "undefined") {
+      return null;
+   }
+   const nameEQ = name + "=";
+   const ca = document.cookie.split(";");
+   for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === " ") c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) === 0)
+         return decodeURIComponent(c.substring(nameEQ.length, c.length));
+   }
+   return null;
 }
