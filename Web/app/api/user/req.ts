@@ -1,5 +1,4 @@
 "use client";
-import { useRouter } from "next/router";
 import { URLGenerator } from "../handler";
 
 export async function LoginUser(email: string, password: string) {
@@ -59,7 +58,6 @@ export async function LoginUser(email: string, password: string) {
 
 export async function Auth() {
    // Check if the user is authenticated
-   const router = useRouter();
    const session_key = getCookie("ELW_SESSION_TOKEN");
 
    if (!session_key) {
