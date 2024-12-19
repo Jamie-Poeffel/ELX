@@ -17,10 +17,12 @@ export const URLGenerator = (
 
 export const Encript = (data: string): string => {
    const algorithm = "aes-256-cbc";
-   const key = crypto.scryptSync(
+   const key = crypto.pbkdf2Sync(
       `${process.env.NEXT_PUBLIC_APP_ENCRYPTION_KEY}`,
       "salt",
-      32
+      100000,
+      32,
+      "sha256"
    );
    const iv = crypto.randomBytes(16);
 
@@ -29,4 +31,23 @@ export const Encript = (data: string): string => {
    encrypted += cipher.final("hex");
 
    return `${iv.toString("hex")}:${encrypted}`;
+};
+
+export const CompareEncrypted = (data: string, encrypted: string): boolean => {
+   const [ivHex, encryptedData] = encrypted.split(":");
+   const algorithm = "aes-256-cbc";
+   const key = crypto.pbkdf2Sync(
+      `${process.env.NEXT_PUBLIC_APP_ENCRYPTION_KEY}`,
+      "salt",
+      100000,
+      32,
+      "sha256"
+   );
+   const iv = Buffer.from(ivHex, "hex");
+
+   const cipher = crypto.createCipheriv(algorithm, key, iv);
+   let encryptedInput = cipher.update(data, "utf8", "hex");
+   encryptedInput += cipher.final("hex");
+
+   return encryptedInput === encryptedData;
 };

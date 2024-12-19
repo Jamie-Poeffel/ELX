@@ -41,8 +41,11 @@ export default function Register() {
          );
 
          if (res?.length === 0 || res === undefined) {
+            router.prefetch("/login");
             // Redirect user to installation page
-            router.push("/login");
+            setTimeout(() => {
+               router.push("/login");
+            }, 500);
          } else {
             // Handle login errors
             setEmailErr(res!);
@@ -51,6 +54,10 @@ export default function Register() {
          }
       } catch (error) {
          console.error(error);
+         setTimeout(() => {
+            router.push("/login/register");
+         }, 5000);
+         throw new Error("An error occurred");
       } finally {
          setLoading(false);
       }
@@ -59,11 +66,6 @@ export default function Register() {
    return (
       <>
          <div className="min-h-dvh flex flex-col justify-center gap-4">
-            <Link href="/login" className="ml-3">
-               <p className="flex items-center gap-2 cursor-pointer">
-                  <ChevronLeft /> Back
-               </p>
-            </Link>
             <div className="w-screen min-h-full flex justify-center items-center p-4">
                <div className="w-[380px]">
                   <Card>
@@ -160,6 +162,7 @@ export default function Register() {
                                     className="w-full mt-2"
                                     onClick={register}
                                     disabled={loading}
+                                    type="button"
                                  >
                                     {loading ? (
                                        <p className="flex justify-center items-center gap-2">
@@ -170,6 +173,13 @@ export default function Register() {
                                        <p>Register</p>
                                     )}
                                  </Button>
+                              </div>
+                              <div>
+                                 <Link href="/login" className="ml-3">
+                                    <p className="flex items-center gap-2 cursor-pointer">
+                                       <ChevronLeft /> Back
+                                    </p>
+                                 </Link>
                               </div>
                            </form>
                         </div>

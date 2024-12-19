@@ -1,5 +1,5 @@
 "use client";
-import { Encript, URLGenerator } from "../handler";
+import { CompareEncrypted, Encript, URLGenerator } from "../handler";
 
 export async function LoginUser(email: string, password: string) {
    // login the user to the airtable api
@@ -42,7 +42,7 @@ export async function LoginUser(email: string, password: string) {
       }
 
       const user = users[0];
-      if (user.fields.password !== Encript(password)) {
+      if (!CompareEncrypted(password, user.fields.password)) {
          errmsg = "Password does not match";
          return errmsg;
       }
