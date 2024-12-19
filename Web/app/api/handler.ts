@@ -17,7 +17,11 @@ export const URLGenerator = (
 
 export const Encript = (data: string): string => {
    const algorithm = "aes-256-cbc";
-   const key = crypto.randomBytes(32);
+   const key = crypto.scryptSync(
+      `${process.env.NEXT_PUBLIC_APP_ENCRYPTION_KEY}`,
+      "salt",
+      32
+   );
    const iv = crypto.randomBytes(16);
 
    const cipher = crypto.createCipheriv(algorithm, key, iv);
